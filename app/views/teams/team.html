@@ -1,0 +1,32 @@
+<h1>Teams</h1>
+
+<div class="row">
+	<div class="col-sm-2">
+		Id
+	</div>
+	<div class="col-sm-2">
+		Name
+	</div>
+	<div class="col-sm-2">
+		<a href="#">Add</a>
+	</div>
+
+</div>
+
+
+<div class="row" ng-repeat="team in tm.allTeams">
+
+	<div class="col-sm-2">
+		{{team.id}}
+	</div>
+	<div class="col-sm-2">
+		{{team.name}}
+	</div>
+	<div class="col-sm-2">
+		
+		<a href="#/teams/team/{{team.id}}">edit</a>&nbsp;
+		<a href="#">remove</a>
+		
+	</div>
+
+</div>

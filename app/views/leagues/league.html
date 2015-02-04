@@ -1,0 +1,46 @@
+<div class="">
+  <h1>League</h1>
+  <p class="lead">
+    
+  </p>
+  <p></p>
+
+  <div class="col-sm-4">
+      <div>
+          <p><b>Configuration</b></p>
+          <input type="button" value="Configure" ng-click="" />
+      </div>
+      
+
+  </div>
+
+  <div class="col-sm-4">
+      <div>
+          <p><b>Schedules</b></p>
+          <input type="button" value="Generate Schedules" ng-click="lg.generateSchedule()" />
+      </div>
+      <div ng-if="lg.hasSchedules">
+          <!-- this will probably need a directive to show full schedule and manage -->
+          League starts on : {{lg.startDate}}
+      </div>
+      <div ng-if="!lg.hasSchedules">
+          No schedules at this time, configure your league and click on Generate schedules to have games assigned. 
+      </div>
+      
+  </div>
+
+  <div class="col-sm-4">
+      <div>
+          <p><b>Game Results</b></p>
+          <input type="button" value="Manage Results" ng-click="lg.manageResults()" />
+      </div>
+      
+  </div>
+
+</div>
+
+<div class="row marketing">
+  
+    
+
+</div>

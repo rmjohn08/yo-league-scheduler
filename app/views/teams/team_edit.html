@@ -1,0 +1,30 @@
+<h1>Team</h1>
+
+<form class="inline" name="frmTeam" >
+	<div class="row" ng-if="tm.message.length>0">
+		{{tm.message}}	
+	</div>
+	<div class="row">
+		<label>Name:</label>
+		<input type="text" ng-model="tm.team.name">
+	</div>
+
+	<div class="row">
+		<label>Bracket:</label>
+		<input type="text" ng-model="tm.team.bracket" size="4" maxlength="1" />
+	</div>
+
+	<div class="row">
+		<label>Short Name:</label>
+		<input type="text" ng-model="tm.team.shortName" size="5" maxlength="3" />
+	</div>
+
+	<div class="row">
+		<br/>
+		<input class="btn btn-primary" type="submit" ng-click="tm.submitForm()" value="Save"/>
+		<input class="btn btn-default" type="submit" ng-click="tm.cancelEdit()" value="Cancel"/>
+	</div>
+
+</form>
+
+<br />

@@ -1,0 +1,25 @@
+<div>
+        <div class="modal-header">
+            <h3 class="modal-title">Game Result</h3>
+        </div>
+        <div class="modal-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm6">
+                        <label>Home:</label>
+                        <input type="text" ng-model='daySelected.result[0]' size="4" maxlength="3">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm6">
+                        <label>Away:</label>
+                        <input type="text" ng-model='daySelected.result[1]' size="4" maxlength="3">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+</div>
