@@ -19,7 +19,8 @@ angular
     'ngSanitize',
     'ngTouch',
     'ui.bootstrap',
-    'ui.bootstrap.tpls'
+    'ui.bootstrap.tpls',
+    'config'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -41,6 +42,11 @@ angular
         controller: 'LeagueCtrl',
         controllerAs: 'lg'
       })
+      .when('/leagues/:leagueId', {
+        templateUrl: 'views/leagues/league.html',
+        controller: 'LeagueCtrl',
+        controllerAs: 'lg'
+      })
       .when('/leagues/manage-result', {
         templateUrl: 'views/leagues/manage-results.html',
         controller: 'LeagueCtrl',
@@ -48,6 +54,11 @@ angular
       })
       .when('/teams', {
         templateUrl: 'views/teams/team.html',
+        controller: 'TeamCtrl',
+        controllerAs : 'tm'
+      })
+      .when('/teams/new', {
+        templateUrl: 'views/teams/team_edit.html',
         controller: 'TeamCtrl',
         controllerAs : 'tm'
       })

@@ -19,11 +19,11 @@
           <p><b>Schedules</b></p>
           <input type="button" value="Generate Schedules" ng-click="lg.generateSchedule()" />
       </div>
-      <div ng-if="lg.hasSchedules">
+      <div ng-if="lg.leagueLoaded">
           <!-- this will probably need a directive to show full schedule and manage -->
           League starts on : {{lg.startDate}}
       </div>
-      <div ng-if="!lg.hasSchedules">
+      <div ng-if="!lg.leagueLoaded">
           No schedules at this time, configure your league and click on Generate schedules to have games assigned. 
       </div>
       

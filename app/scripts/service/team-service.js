@@ -2,7 +2,15 @@
  * model for the teams crud operations
 *
 */
-function TeamService () {
+function TeamService ($resource) {
+
+
+    var server ='http://localhost:3000/';
+    var leagueApi = 'leagues/';
+    var teams = "teams/:id";
+
+    var getTeams = 'teams/';
+    var newTeams = 'teams/new';
 
 	var allTeams = [];
 
@@ -15,7 +23,7 @@ function TeamService () {
 	return {
 
 		/* get team by id */
-		getTeamById : function(teamId) {
+		getTeamById_v1 : function(teamId) {
 
 			var t = _.where(allTeams, { "id" : parseInt(teamId)} );
 			return t;
@@ -38,19 +46,6 @@ function TeamService () {
 				t = team;
 
 			}
-
-		},
-
-		/* add a new team */
-		addTeam : function(team) {
-
-			var last = allTeams[allTeams.length - 1].id;
-			if (!last) last = 0;
-
-			team.id = last + 1; 
-			
-			allTeams.push(team);
-
 
 		},
 
@@ -79,11 +74,71 @@ function TeamService () {
 			// here return team by using a different method, perhaps local storage, service call, etc... 
 			return allTeams;
 
-		}
+		},
+
+		getAllLeagueTeams : function(leagueId) {
+
+			return $resource(server + leagueApi + getTeams); 
+			/*, {}, {
+              query: { method: 'GET' }
+            }); */
+            //, params: {}, isArray: true
+
+		},
+		/* add a new team */
+		addTeam : function(team) {
+
+			var last = allTeams[allTeams.length - 1].id;
+			if (!last) last = 0;
+
+			team.id = last + 1; 
 		
+			// new team allTeams.push(team);
+
+			/* var CreditCard = $resource('/user/:userId/card/:cardId',
+ 				{userId:123, cardId:'@id'}, {charge: {method:'POST', params:{charge:true}}
+ 				});
+			*/
+			
+			return $resource(server + leagueApi + newTeams,  { id: '@id' }, {
+    			update: { method: 'PUT'},
+    			post: {method: 'POST'}
+    		});
+
+
+		},
+		/* get team by id */
+		getTeamById : function(teamId) {
+
+			return $resource(server + leagueApi + getTeams +':id',  { id: '@id' }, {
+    			update: {
+      				method: 'PUT'
+    			}});
+
+			
+		},
+
+		resource : function () {
+			return $resource(server + leagueApi + teams, {id: '@id'}, {
+				update: {method: 'PUT', params:{id:'@id'}},
+	    		post: 	{method: 'POST',params:{id:'@id'}},
+	    		query: 	{method: 'GET', params: {id:''}, isArray:true},
+	    		remove: {method: 'DELETE'}
+    		});
+		}
 	}
 
 }
 
 angular.module('yoFootballScheduleApp')
-  .factory('TeamService',[TeamService]);
+  .factory('TeamService',['$resource',TeamService]);
+
+
+/*
+angular.module('pollServices', ['ngResource']).
+          factory('Poll', function($resource) {
+            return $resource('polls/:pollId', {}, {
+              query: { method: 'GET', params: { pollId: 'polls' }, isArray: true }
+            })
+          });
+*/

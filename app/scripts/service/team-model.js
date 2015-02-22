@@ -26,9 +26,9 @@ function TeamModel (teamService) {
 			if (team) {
 
 				if (team.id == null) {
-					teamService.addTeam(team);
+					return teamService.addTeam(team);
 				} else {
-					teamService.saveTeam(team);
+					return teamService.saveTeam(team);
 
 				}
 
@@ -46,6 +46,14 @@ function TeamModel (teamService) {
 
 			return teamService.getLeagueTeams(leagueId);
 
+		},
+		getAllLeagueTeams : function(leagueId) {
+			return teamService.getAllLeagueTeams(leagueId);
+
+		},
+
+		resource : function() {
+			return teamService.resource();
 		},
 
 		getCounter : function () { return cnt + 1; }

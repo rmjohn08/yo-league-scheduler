@@ -1,0 +1,3 @@
+chrome.exe --disable-web-security
+
+C:\Program Files (x86)\Google\Chrome\Application\chrome.exe --disable-web-security

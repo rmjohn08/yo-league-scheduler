@@ -9,7 +9,7 @@
 // number times a team play each other
 // number times a different bracket plays another bracket 
 
-function ScheduleSvc ($filter, TeamModel) {
+function ScheduleSvc ($filter, $resource, TeamModel) {
   var filter = $filter;
 
   var teams = [];               // teams
@@ -24,7 +24,7 @@ function ScheduleSvc ($filter, TeamModel) {
   var gameMinutesDuration = 50;  // 50 min
   var playEachOther = 2;         // default to min of 2 times
   var playOtherBracket = 1;      // times team play on other brackets
-  
+
   /*
   * generates a temporary array of teams
   */
@@ -81,6 +81,13 @@ function ScheduleSvc ($filter, TeamModel) {
     } 
 
     // games should now be scheduled
+    // lets try testing the api
+    if (scheduledGames.length>0) {
+      for (var i = 0; i<scheduledGames.length; i++) {
+        addEvent(scheduledGames[i]);
+      }
+
+    }
 
   }
 
@@ -159,8 +166,24 @@ function ScheduleSvc ($filter, TeamModel) {
 
   }
 
+  /* adds an event */
+  function addEvent(scheduledEvent) {
+
+      var league = 1;
+      //var de = [];
+      //de.dayEvent = scheduledEvent;
+      scheduledEvent.leagueId = league;
+      
+      getResource().post(scheduledEvent).$promise.then( function() {
+          //this should add the event
+          console.log('Day event added');
+
+      });
 
 
+  }
+
+  
   // select a team from list and remove selected team
   function getTeamRandomly(copyTeams) {
 
@@ -182,7 +205,29 @@ function ScheduleSvc ($filter, TeamModel) {
     return [Math.floor(Math.random() * max)];
   }
 
+  /* resource for calling api 
+    app.get('/leagues/:leagueId/events');               // all schedules for league
+    app.post('/leagues/:leagueId/events');              // adds a day of games
+
+  */
+  function getResource() {
+    var server ='http://localhost:3000/';
+    var leagueApi = 'leagues/';
+    var events = ":leagueId/events";
+    return $resource(server + leagueApi + events, {leagueId: '@leagueId'}, {
+          query:  {method: 'GET', params: {}, isArray:true},
+          post: {method:'POST'} 
+          
+        });
+    /* save:   {method: 'POST'},  ...,params:{dayEvent:'@de.dayEvent'}, headers: {
+            'Content-Type': 'application/json'
+            }} */
+  }
+
   return {
+    // resource object for api requests
+    resource : function () { return getResource() },
+
     /* generates the schedule for league */
     generateSchedule : function(Teams) {
         
@@ -199,7 +244,9 @@ function ScheduleSvc ($filter, TeamModel) {
     },
 
     /* the league schedule */
-    getSchedule : function() { return scheduledGames; } ,
+    getSchedule : function() { 
+      return scheduledGames; 
+    },
 
     /* set the teams for league */
     setTeams : function(leagueTeams) {
@@ -233,15 +280,13 @@ function ScheduleSvc ($filter, TeamModel) {
 
         }
 
-        return gameTimes;
-        
+        return gameTimes;   
     }
-
   }
 }
 
 angular.module('yoFootballScheduleApp')
-  .factory('Schedule',['$filter','TeamModel',ScheduleSvc]);
+  .factory('Schedule',['$filter','$resource','TeamModel',ScheduleSvc]);
 
 /*
 angular.module('yoFootballScheduleApp')
