@@ -29,7 +29,7 @@ function ScheduleSvc ($filter, $resource, TeamModel) {
   * generates a temporary array of teams
   */
   function setTemporaryTeams() {
-      teams = TeamModel.getLeagueTeams(null);
+      teams = TeamModel.getTempTeams();
   }
 
   /* creates schedule for a league */
@@ -80,14 +80,17 @@ function ScheduleSvc ($filter, $resource, TeamModel) {
 
     } 
 
+    console.log('Schedule generated....');
+
     // games should now be scheduled
     // lets try testing the api
-    if (scheduledGames.length>0) {
+    /* if (scheduledGames.length>0) {
       for (var i = 0; i<scheduledGames.length; i++) {
         addEvent(scheduledGames[i]);
       }
 
     }
+    */
 
   }
 
@@ -139,9 +142,7 @@ function ScheduleSvc ($filter, $resource, TeamModel) {
           } else {
             console.log('idx creates an undefined team idx::'+ idx)
           } 
-
       }
-
    }
 
   }
@@ -224,12 +225,13 @@ function ScheduleSvc ($filter, $resource, TeamModel) {
             }} */
   }
 
-  return {
+  var ScheduleSvc = function(leagueId) {
+
     // resource object for api requests
-    resource : function () { return getResource() },
+    this.resource = function () { return getResource() };
 
     /* generates the schedule for league */
-    generateSchedule : function(Teams) {
+    this.generateSchedule = function(Teams) {
         
         if (teams == null || teams== undefined || teams.length<=0) {
             teams = [];
@@ -241,38 +243,37 @@ function ScheduleSvc ($filter, $resource, TeamModel) {
         //@todo assign teams to scheduled games
         assignGames();
 
-    },
+    };
 
     /* the league schedule */
-    getSchedule : function() { 
+    this.getSchedule = function() { 
       return scheduledGames; 
-    },
+    };
 
     /* set the teams for league */
-    setTeams : function(leagueTeams) {
+    this.setTeams = function(leagueTeams) {
       teams = leagueTeams;
-    },
+    };
 
     /* get teams */
-    getTeams : function () { return teams; },
+    this.getTeams = function () { return teams; };
 
    /* set the league start date */
-    setLeagueStartDate : function(startDate) {
+    this.setLeagueStartDate = function(startDate) {
       leagueStartDate = startDate;
-    }, 
+    };
 
     /* gets the league start date */
-    getLeagueStartDate : function () { 
+    this.getLeagueStartDate = function () { 
       var start = leagueStartDate || new Date();
       return filter('date')(start,'shortDate'); 
-    },
+    };
 
-    getScheduledHours : function() {
+    this.getScheduledHours = function() {
 
         if (!scheduledGames || scheduledGames==null) return null;
 
         var firstDay = scheduledGames[0];
-
         var gameTimes = _.pluck(firstDay.gameEvents,'game_time');
 
         for (var i=0; i < gameTimes.length; i++) {
@@ -283,10 +284,13 @@ function ScheduleSvc ($filter, $resource, TeamModel) {
         return gameTimes;   
     }
   }
+
+  return ScheduleSvc;
+  
 }
 
 angular.module('yoFootballScheduleApp')
-  .factory('Schedule',['$filter','$resource','TeamModel',ScheduleSvc]);
+  .factory('ScheduleSvc',['$filter','$resource','TeamModel',ScheduleSvc]);
 
 /*
 angular.module('yoFootballScheduleApp')

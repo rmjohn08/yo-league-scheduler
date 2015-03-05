@@ -4,17 +4,21 @@
 *
 */
 
-function LeagueService($filter, $resource,$timeout,TeamService, ENV) {
+function LeagueService($filter, $resource,$timeout,TeamModel, ENV, scheduleSvc) {
 
 	var leaguePar = ':leagueId';
 	var League = [];  				// it will represent a league model???
 	var teams = [];
+	var scheduledGames = [];
+
+	var scheduler = []; 
 	
 	function getResource() {
 		return $resource(ENV.server + ENV.apiUrl + leaguePar,{},
 			{
-				query: {method: 'GET', params: {}, isArray: true},
-				post: {method: 'POST'}
+				leagues: {method: 'GET', isArray:true},
+				query: {method: 'GET', params: {leagueId:'@leagueId'}, isArray: false},
+				post:  {method: 'POST', params: {leagueId:'@leagueId'}}
 			});
 	}
 
@@ -63,22 +67,21 @@ function LeagueService($filter, $resource,$timeout,TeamService, ENV) {
 				
 			}); */
 
-			return  getResource().get({leagueId:id});
-						
-					
+			return  getResource().query({leagueId:id});
+											
 	    },
 	    loadTeams : function(league) {
-	    	TeamService.getAllLeagueTeams()
+	    	TeamModel.getAllLeagueTeams(league)
 	    		.query().$promise.then(
 	    			function(data) {
 						if (data) {
-							teams = data;	
+							teams = data; 
 						}
 					
 					},
 					function() {
 						// nothing was loaded
-						console.log('Team didnt load')
+						console.log("Teams didn't load");
 					}
 
 				);
@@ -93,18 +96,14 @@ function LeagueService($filter, $resource,$timeout,TeamService, ENV) {
 	    },
 
 	    /* generates the schedule for league */
-	    generateSchedule : function(Teams) {
-	        
-	        if (teams == null || teams== undefined || teams.length<=0) {
-	            teams = [];
-	            setTemporaryTeams();
+	    generateSchedule : function(leagueId) {
+	    	scheduler = new scheduleSvc(leagueId);
+			scheduler.generateSchedule(teams);
+			scheduledGames = scheduler.getSchedule(); 
+	    },
 
-	        }
-
-	        makeSchedules();
-	        //@todo assign teams to scheduled games
-	        assignGames();
-
+	    setSchedule : function(schedule) {
+	    	scheduledGames = schedule;
 	    },
 
 	    /* the league schedule */
@@ -128,9 +127,10 @@ function LeagueService($filter, $resource,$timeout,TeamService, ENV) {
 	    /* gets the league start date */
 	    getLeagueStartDate : function () { 
 	      var start = leagueStartDate || new Date();
-	      return filter('date')(start,'shortDate'); 
+	      return $filter('date')(start,'shortDate'); 
 	    },
 
+	    /* extract the hours to play in a day, uses the first day */
 	    getScheduledHours : function() {
 
 	        if (!scheduledGames || scheduledGames==null) return null;
@@ -140,7 +140,7 @@ function LeagueService($filter, $resource,$timeout,TeamService, ENV) {
 	        var gameTimes = _.pluck(firstDay.gameEvents,'game_time');
 
 	        for (var i=0; i < gameTimes.length; i++) {
-	            gameTimes[i] = filter('date')(gameTimes[i],'shortTime');
+	            gameTimes[i] = $filter('date')(gameTimes[i],'shortTime');
 
 	        }
 
@@ -151,7 +151,7 @@ function LeagueService($filter, $resource,$timeout,TeamService, ENV) {
 }
 
 angular.module('yoFootballScheduleApp')
-	.factory('LeagueService',['$filter','$resource','$timeout','TeamService','ENV',LeagueService]);
+	.factory('LeagueService',['$filter','$resource','$timeout','TeamModel','ENV','ScheduleSvc',LeagueService]);
 
 
 

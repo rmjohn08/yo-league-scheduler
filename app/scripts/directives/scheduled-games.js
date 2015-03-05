@@ -19,32 +19,28 @@ function ScheduledGames($compile,$templateCache,$templateRequest,$document, $mod
     	},
     	replace: true,
     	templateUrl: 'scripts/directives/tmpl_scheduled_games.html',
-    	controller: ['$scope', '$timeout','$filter','Schedule','TeamModel',
-      	function($scope, $timeout, $filter, Schedule, teamModel) {
+    	controller: ['$scope', '$timeout','$filter','LeagueService',
+      	function($scope, $timeout, $filter, LeagueService) {
 
 		    var res = this;
 		   	var modalInstance;
-
-		  	var schedule = Schedule;
-		    //schedule.generateSchedule(null);
-
+		  	var schedule = LeagueService; //$scope.$parent.lg.leagueService;
+		   
 		    $scope.leagueSchedule = schedule.getSchedule();
 
 		    if ($scope.leagueSchedule && $scope.leagueSchedule.length>0)	{
 			    console.log($filter('json')($scope.leagueSchedule));
 
-			    // get scheduled hours for the league
+			    //// get scheduled hours for the league
 			    $scope.scheduledHours = schedule.getScheduledHours();
-			    // get teams on this league
+			    //// get teams on this league
 			    $scope.teams = schedule.getTeams();
 		    }
 
 		    $scope.getGameResult = function(event) {
 
 		    	var str = event.home + ' v ' + event.away; 
-		    			/* event.home.substring(0,3) + ' v ' +
-						event.away.substring(0,3).toLowerCase();
-						*/
+		    			
 				if ($scope.manage) {
 		    		str = "<a href='javascript:void(0)' onclick='enterResult()'>" + str + '</a>';
 

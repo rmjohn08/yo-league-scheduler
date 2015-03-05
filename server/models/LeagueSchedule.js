@@ -8,6 +8,8 @@ exports.LeagueScheduleSchema = new mongoose.Schema({
 	name: String,
 	league:Number, 
 	date:Date, 
-	gameEvents : [{id:Number, number:Number, game_time:String, home:String, away:String, result : [0,0]}]
+	schedule : [{id:Number, date:String, 
+			gameEvents:[{id:Number, number:Number, game_time:String, home:String, away:String, result : [0,0]}]
+			}]
 });
 

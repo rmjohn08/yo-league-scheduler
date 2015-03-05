@@ -3,7 +3,7 @@
  function TeamCtrl ($scope, $routeParams,$location,$filter, teamModel) {
 
     var tm = this;
-    var leagueId = null;
+    var leagueId = $routeParams.leagueId;
 
     var teamResource = teamModel.resource(); //teamModel.getTeamById(teamId);
     var teamId = $routeParams.teamId
@@ -22,9 +22,7 @@
       });
 
     } else if ($location.path().indexOf('/new')>=0) {
-
       tm.team = {id:null, name:'', bracket:'', shortName:''};
-
 
     } else {
 

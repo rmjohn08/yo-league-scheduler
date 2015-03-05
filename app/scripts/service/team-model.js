@@ -47,6 +47,10 @@ function TeamModel (teamService) {
 			return teamService.getLeagueTeams(leagueId);
 
 		},
+		getTempTeams : function() {
+			return teamService.getTempTeams();
+		},
+
 		getAllLeagueTeams : function(leagueId) {
 			return teamService.getAllLeagueTeams(leagueId);
 

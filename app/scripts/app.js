@@ -38,7 +38,7 @@ angular
         controller: 'StandingCtrl'
       })
       .when('/leagues', {
-        templateUrl: 'views/leagues/league.html',
+        templateUrl: 'views/leagues/list.html',
         controller: 'LeagueCtrl',
         controllerAs: 'lg'
       })
@@ -47,12 +47,12 @@ angular
         controller: 'LeagueCtrl',
         controllerAs: 'lg'
       })
-      .when('/leagues/manage-result', {
+      .when('/leagues/:leagueId/manage-result', {
         templateUrl: 'views/leagues/manage-results.html',
         controller: 'LeagueCtrl',
         controllerAs: 'lg'
       })
-      .when('/teams', {
+      .when('/leagues/:leagueId/teams', {
         templateUrl: 'views/teams/team.html',
         controller: 'TeamCtrl',
         controllerAs : 'tm'

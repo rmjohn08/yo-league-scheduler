@@ -62,10 +62,10 @@ app.post('/leagues/teams', routes.createTeam);      // adds a team
 app.put('/leagues/teams/:id', routes.updateTeam);   // update a team
 // league and schedules
 app.get('/leagues/:leagueId', routes.leagueInfo);
-app.get('/leagues/:leagueId/events', routes.schedulesList);             // all schedules for league
-app.post('/leagues/:leagueId/events', routes.addDayEvent);              // adds a day of games
-app.post('/leagues/:leagueId/schedules', routes.updateSchedules);       // updates schedules
-
+app.get('/leagues/:leagueId/events', routes.schedulesList);   // all schedules for league
+app.post('/leagues/:leagueId/events', routes.addDayEvent);    // adds a day of games
+app.post('/leagues/:leagueId', routes.updateSchedules);       // updates schedules
+app.get('/leagues', routes.schedulesList);                   // all leagues
 
 app.get('/users', user.list);
 

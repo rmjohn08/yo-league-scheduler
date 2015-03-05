@@ -60,7 +60,7 @@ exports.createTeam = function (req, res) {
 	
 	var body = req.body;
 	
-	var team = {_id:null, id:++counter, name:body.name, bracket:body.bracket, shortName:body.shortName};
+	var team = {_id:null, id:++counter, name:body.name, bracket:body.bracket,leagueId:body.leagueId, shortName:body.shortName};
 	
 	var newTeam = new Team(team);
 	newTeam.save( function(err, doc) {
@@ -86,7 +86,7 @@ exports.updateTeam = function (req, res) {
        		team.name = body.name;
        		team.bracket = body.bracket;
        		team.shortName = body.shortName;
-
+       		team.leagueId = body.leagueId;
     		team.save(function(err, doc) {
 				if (err || !doc) {
 					throw 'Error';
@@ -105,13 +105,15 @@ var Schedules = db.model('schedules', LeagueSchedule);
 
 exports.leagueInfo = function(req, res) {
 	var leagueId = req.params.leagueId;
-	
+	console.log("Finding league :"+leagueId);
+
 	Schedules.findOne({id:leagueId}, function(err, league) {
        if(league) {
          
          res.json(league);
        } else {
-         res.json({error:true});
+       	 console.log('Error '+ err);
+         res.json({error:true, description:'Trying to read league with id '+leagueId});
        }
      });
 
@@ -126,7 +128,7 @@ exports.updateSchedules = function (req, res) {
 	Schedules.findOne({id:id}, function(err, league) {
        if(league) {
 			// var team = {id:body.id, name:body.name, bracket:body.bracket, shortName:body.shortName};
-       		team.gameEvents = body.gameEvents;
+       		league.schedule = body.schedule;
 
     		league.save(function(err, doc) {
 				if (err || !doc) {
@@ -147,12 +149,14 @@ exports.updateSchedules = function (req, res) {
 exports.schedulesList = function (req, res) {
 
 	var query = Schedules.find();
-	
-	query.exec(function(err, schedules) {
+	query.select('id name date -_id');
+
+	query.exec(function(err, data) {
 		if (err) return {error:'an error occurred in schedulesList'};
 		
+		
 		//res.send(teams);
-		res.json(schedules);
+		res.json(data);
 		
 	});
 

@@ -54,24 +54,18 @@ function TeamService ($resource) {
 
 			var rest = _.reject(allTeams, function(el) { el.id == teamId; });
 		},
+		/* retuns temp teams */
+		getTempTeams : function(leagueId) {
 
-		getLeagueTeams : function(leagueId) {
+			var tmps = ["Linoma","OFC","All Stars","Sampdoria","Secret To Victory","A Team","Lucky Team","Perfect Begin"];	
+			for (var i = 0; i < tmps.length; i++) {
+				var t = getEmptyTeam();
 
-			if (allTeams.length<=0 && (!leagueId || leagueId == null)) {
+				t.name = tmps[i];
+				t.id = i+1;
+				allTeams.push(t);
+			}
 
-				var tmps = ["Linoma","OFC","All Stars","Sampdoria","Secret To Victory","A Team","Lucky Team","Perfect Begin"];	
-				for (var i = 0; i < tmps.length; i++) {
-					var t = getEmptyTeam();
-
-					t.name = tmps[i];
-					t.id = i+1;
-					allTeams.push(t);
-				}
-
-				return allTeams;
-			} 	
-
-			// here return team by using a different method, perhaps local storage, service call, etc... 
 			return allTeams;
 
 		},
@@ -79,11 +73,7 @@ function TeamService ($resource) {
 		getAllLeagueTeams : function(leagueId) {
 
 			return $resource(server + leagueApi + getTeams); 
-			/*, {}, {
-              query: { method: 'GET' }
-            }); */
-            //, params: {}, isArray: true
-
+			
 		},
 		/* add a new team */
 		addTeam : function(team) {
