@@ -28,14 +28,14 @@
           }
       });
       
-    } else if ($location.path().indexOf("manage-result")<0) {
+    } else { //if ($location.path().indexOf("manage-result")<0) {
       
       loadLeague();
     
-    } else {
+    } /*else {
       //not a path for leagues
 
-    }
+    }*/
 
     // get league info
     function loadLeague() {

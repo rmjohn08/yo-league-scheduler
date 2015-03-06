@@ -7,7 +7,7 @@
  * # MainCtrl
  * Controller of the yoFootballScheduleApp
  */
- function ResultCtrl ($scope, $filter, Schedule, teamModel) {
+ function ResultCtrl ($scope, $filter, LeagueService) {
 
     var res = this;
 /*
@@ -26,4 +26,4 @@
   }
 
 angular.module('yoFootballScheduleApp')
-  .controller('ResultCtrl',['$scope','$filter','Schedule', ResultCtrl]);
+  .controller('ResultCtrl',['$scope','$filter','LeagueService', ResultCtrl]);

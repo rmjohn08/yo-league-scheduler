@@ -28,10 +28,10 @@ angular
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })
-      .when('/results', {
-        templateUrl: 'views/results/result.html',
-        controller: 'ResultCtrl',
-        controllerAs: 'res' 
+      .when('/leagues/:leagueId/results', {
+        templateUrl: 'views/leagues/result.html',
+        controller: 'LeagueCtrl',
+        controllerAs: 'lg' 
       })
       .when('/standings', {
         templateUrl: 'views/standings/standing.html',

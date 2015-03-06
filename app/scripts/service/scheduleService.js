@@ -231,7 +231,9 @@ function ScheduleSvc ($filter, $resource, TeamModel) {
     this.resource = function () { return getResource() };
 
     /* generates the schedule for league */
-    this.generateSchedule = function(Teams) {
+    this.generateSchedule = function(leagueTeams) {
+        
+        teams = leagueTeams;
         
         if (teams == null || teams== undefined || teams.length<=0) {
             teams = [];
