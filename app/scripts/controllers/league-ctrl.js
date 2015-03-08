@@ -50,7 +50,7 @@
               }
 
               LeagueService.loadTeams(leagueId);
-              
+              $scope.$emit("notify","League loaded");
             } else {
               console.log("League not found :"+ leagueId);
 

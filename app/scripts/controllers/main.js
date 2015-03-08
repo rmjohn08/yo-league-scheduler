@@ -7,7 +7,7 @@
  * # MainCtrl
  * Controller of the yoFootballScheduleApp
  */
- function MainCtrl ($scope,$filter, Schedule) {
+ function MainCtrl ($scope,$filter) {
 
   	$scope.awesomeThings = [
       'HTML5 Boilerplate',
@@ -19,4 +19,4 @@
   }
 
 angular.module('yoFootballScheduleApp')
-  .controller('MainCtrl',['$scope','$filter','Schedule', MainCtrl]);
+  .controller('MainCtrl',['$scope','$filter', MainCtrl]);

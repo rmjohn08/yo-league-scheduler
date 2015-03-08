@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
+  
   <body ng-app="yoFootballScheduleApp">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -31,7 +32,7 @@
         </ul>
         <h3 class="text-muted">yoFootballSchedule</h3>
       </div>
-
+      <div notification ></div>
       <div ng-view=""></div>
 
       <div class="footer">
@@ -99,6 +100,7 @@
         <!-- directives -->
         <script src="scripts/directives/active-selection.js"></script>
         <script src="scripts/directives/scheduled-games.js"></script>
+        <script src="scripts/directives/notification.js"></script>
 
         <!-- endbuild -->
 </body>
