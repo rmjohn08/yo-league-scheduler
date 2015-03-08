@@ -3,7 +3,7 @@ angular.module('yoFootballScheduleApp').directive("notification",
 	return {
 		replace : true,
 		template: [
-		"<div class='alert alert-info' ng-show='notification.visible'>{{ notification.message}}</div>"
+		"<div class='alert alert-success' ng-show='notification.visible'>{{ notification.message}}</div>"
 		].join(""),
 		link: function(scope, el, attrs) {
 			scope.notification = {message : false, visible: false };
