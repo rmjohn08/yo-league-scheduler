@@ -1,16 +1,17 @@
 'use strict';
 
- function TeamCtrl ($scope, $routeParams,$location,$filter, teamModel) {
+ function TeamCtrl ($scope, $stateParams,$state,$filter, teamModel) {
 
     var tm = this;
-    var leagueId = $routeParams.leagueId;
+    var leagueId = $stateParams.leagueId;
+
+    tm.leagueId = leagueId;
 
     var teamResource = teamModel.resource(); //teamModel.getTeamById(teamId);
-    var teamId = $routeParams.teamId
-    if ( teamId != null) {
+    var teamId = $stateParams.teamId
+    if ( teamId != null && teamId != 'new') {
 
       //teamModel.getLeagueTeams(null);
-      var teamId = $routeParams.teamId;
       teamResource.query({id:teamId}).$promise.then(function(response) {
           var t = response[0]; //$filter('json')(response);
           if (t) {
@@ -21,7 +22,7 @@
           }  
       });
 
-    } else if ($location.path().indexOf('/new')>=0) {
+    } else if (teamId == 'new') {
       tm.team = {id:null, name:'', bracket:'', shortName:''};
 
     } else {
@@ -65,7 +66,9 @@
     }
 
     tm.cancelEdit = function() {
-      $location.path('/teams');
+      $state.go('leagueTeams',{leagueId:leagueId})
+      //$location.path('/teams');
+      // #/leagues/1/teams
     }
 
     tm.message = "";
@@ -73,4 +76,4 @@
 }
 
 angular.module('yoFootballScheduleApp')
-  .controller('TeamCtrl',['$scope','$routeParams','$location','$filter', 'TeamModel', TeamCtrl]);
+  .controller('TeamCtrl',['$scope','$stateParams','$state','$filter', 'TeamModel', TeamCtrl]);

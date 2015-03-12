@@ -7,11 +7,11 @@
  * # MainCtrl
  * Controller of the yoFootballScheduleApp
  */
- function LeagueCtrl ($scope,$filter,$location,$routeParams,$timeout, LgSvc) {
+ function LeagueCtrl ($scope,$filter,$location,$stateParams,$timeout, LgSvc) {
 
     var LeagueService = LgSvc;
     var lg = this;                                    // controller as variable...
-    var leagueId = $routeParams.leagueId;             // keeps the current leagueId
+    var leagueId = $stateParams.leagueId;             // keeps the current leagueId
     lg.league = [];                                   // league object
     lg.hasSchedules = false;
     lg.leagueService = LeagueService;
@@ -118,4 +118,4 @@
 }
 
 angular.module('yoFootballScheduleApp')
-  .controller('LeagueCtrl',['$scope','$filter','$location','$routeParams','$timeout','LeagueService', LeagueCtrl]);
+  .controller('LeagueCtrl',['$scope','$filter','$location','$stateParams','$timeout','LeagueService', LeagueCtrl]);
