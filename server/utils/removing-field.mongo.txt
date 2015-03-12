@@ -1,0 +1,10 @@
+
+41
+down vote
+accepted
+Try this: If your collection was 'example'
+
+db.example.update({},{$unset: {words:1}},false,true)
+Refer this:
+
+http://www.mongodb.org/display/DOCS/Updating#Updating-%24unset
