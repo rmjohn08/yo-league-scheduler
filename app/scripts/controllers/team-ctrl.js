@@ -12,7 +12,8 @@
     if ( teamId != null && teamId != 'new') {
 
       //teamModel.getLeagueTeams(null);
-      teamResource.query({id:teamId}).$promise.then(function(response) {
+      //teamResource.query({id:teamId}).$promise.then(function(response) {
+        teamModel.getTeamById(teamId).then(function(response) {
           var t = response[0]; //$filter('json')(response);
           if (t) {
             tm.team = t;
@@ -46,27 +47,15 @@
     /* saves a team using the $resource service */
     tm.submitForm = function() {
 
-      /* tm.team.id = null;
-      teamModel.saveTeam(tm.team).save(tm.team, function() {
+      //tm.team.id = null;
+      teamModel.saveTeam(tm.team).then(function() {
           tm.message = "Team saved";  
       });
-      */
-      if (!tm.team.id || tm.team.id == '') {
-         teamResource.post(tm.team, function() {
-            tm.message = 'Team Added';
 
-         }); 
-      } else {   
-          teamResource.update(tm.team, function() {
-             tm.message = "Team saved";
-
-        }); 
-      
-      }  
     }
 
     tm.cancelEdit = function() {
-      $state.go('leagueTeams',{leagueId:leagueId})
+      $state.go('leagueTeams',{leagueId:leagueId});
       //$location.path('/teams');
       // #/leagues/1/teams
     }

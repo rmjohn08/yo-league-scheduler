@@ -20,7 +20,7 @@
 
     if (!leagueId) {
       // no single league viewing
-      LeagueService.resource().leagues().$promise.then(function(rows) {
+      LeagueService.getAllLeagues().then(function(rows) {
           if (rows) {
             lg.allLeagues = rows;
           } else {
@@ -39,8 +39,8 @@
 
     // get league info
     function loadLeague() {
-      LeagueService.resource().query({leagueId:leagueId})
-        .$promise.then(function(data) {
+      LeagueService.loadLeague(leagueId)
+        .then(function(data) {
             if (data && data.id ) {
               
               lg.league = data;

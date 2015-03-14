@@ -36,17 +36,8 @@ function TeamService ($resource) {
 		},
 		/* save team */
 		saveTeam : function(team) {
-
-			var t = _.findWhere(allTeams,{id:team.id});
-
-			if (!t) {
-				console.log("Team not found " + team.toString());
-			} else {
-
-				t = team;
-
-			}
-
+			//var t = _.findWhere(allTeams,{id:team.id});
+			return this.resource().update(team).$promise;
 		},
 
 		/* delete team */
@@ -69,43 +60,17 @@ function TeamService ($resource) {
 			return allTeams;
 
 		},
-
 		getAllLeagueTeams : function(leagueId) {
-
-			return $resource(server + leagueApi + getTeams); 
-			
+			return $resource(server + leagueApi + getTeams); 			
 		},
 		/* add a new team */
 		addTeam : function(team) {
-
-			var last = allTeams[allTeams.length - 1].id;
-			if (!last) last = 0;
-
-			team.id = last + 1; 
-		
-			// new team allTeams.push(team);
-
-			/* var CreditCard = $resource('/user/:userId/card/:cardId',
- 				{userId:123, cardId:'@id'}, {charge: {method:'POST', params:{charge:true}}
- 				});
-			*/
-			
-			return $resource(server + leagueApi + newTeams,  { id: '@id' }, {
-    			update: { method: 'PUT'},
-    			post: {method: 'POST'}
-    		});
-
-
+			return this.resource().post(team).$promise;
 		},
 		/* get team by id */
 		getTeamById : function(teamId) {
 
-			return $resource(server + leagueApi + getTeams +':id',  { id: '@id' }, {
-    			update: {
-      				method: 'PUT'
-    			}});
-
-			
+			return this.resource().query({id:teamId}).$promise;			
 		},
 
 		resource : function () {

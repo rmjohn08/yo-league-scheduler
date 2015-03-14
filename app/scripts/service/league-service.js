@@ -4,10 +4,10 @@
 *
 */
 
-function LeagueService($filter, $resource,$timeout,TeamModel, ENV, scheduleSvc) {
+function LeagueService($filter, $resource,$timeout,$q,TeamModel, ENV, scheduleSvc) {
 
 	var leaguePar = ':leagueId';
-	var League = [];  				// it will represent a league model???
+	var League;  				// it will represent a league model???
 	var teams = [];
 	var scheduledGames = [];
 
@@ -35,10 +35,19 @@ function LeagueService($filter, $resource,$timeout,TeamModel, ENV, scheduleSvc) 
 
 	}
 
+	function cachedLeague() {
+		return League;
+	}
+
 	/* public calls */
 	return {
     	// resource object for api requests
 	    resource : function () { return getResource() },
+
+	    getAllLeagues : function () {
+	    	return getResource().leagues().$promise;
+
+	    },
 
 	    loadLeague : function(id) {
 	    	//@todo load a league based on the league id
@@ -47,32 +56,17 @@ function LeagueService($filter, $resource,$timeout,TeamModel, ENV, scheduleSvc) 
 	    	// provide an access to this objects so the controller can use them
 	    	//
 
-	    	/* getResource().get({leagueId:id}, function(response) {
-				if (response) {
-					League = response;
-
-					return $timeout(function() {
-				        return League;
-
-				    });	
-
-				} else {
-					console.log("League was not found");
-
-					return $timeout(function() {
-				        return null;
-
-				    });
-				}
-				
-			}); */
-
-			return  getResource().query({leagueId:id});
-											
+	    	if (League) {
+	    		console.log('Using the cached version...');
+				return $q.when(League());
+			} else {
+				console.log('Using a fresh version....');
+				return  getResource().query({leagueId:id}).$promise;
+			}											
 	    },
 	    loadTeams : function(league) {
 	    	TeamModel.getAllLeagueTeams(league)
-	    		.query().$promise.then(
+	    		.then(
 	    			function(data) {
 						if (data) {
 							teams = data; 
@@ -151,7 +145,7 @@ function LeagueService($filter, $resource,$timeout,TeamModel, ENV, scheduleSvc) 
 }
 
 angular.module('yoFootballScheduleApp')
-	.factory('LeagueService',['$filter','$resource','$timeout','TeamModel','ENV','ScheduleSvc',LeagueService]);
+	.factory('LeagueService',['$filter','$resource','$timeout','$q','TeamModel','ENV','ScheduleSvc',LeagueService]);
 
 
 

@@ -52,7 +52,7 @@ function TeamModel (teamService) {
 		},
 
 		getAllLeagueTeams : function(leagueId) {
-			return teamService.getAllLeagueTeams(leagueId);
+			return teamService.getAllLeagueTeams(leagueId).query().$promise;
 
 		},
 
