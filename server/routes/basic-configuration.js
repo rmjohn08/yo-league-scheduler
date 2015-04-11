@@ -7,6 +7,11 @@
 			gameEvents:[{id:Number, number:Number, game_time:String, home:String, away:String, result : [0,0]}]
 			}]
 
+	The purpose of this file is to preload a basic configuration for a league. 
+	it will seed a basic team schema and leagues. Each team will be linked to a specific league. No team 
+	will be linked to more than one league. (not sure what is the advantage of that, usually if you play in a league 
+	is that and that's it... )
+
 */
 
 var mongoose = require('mongoose');

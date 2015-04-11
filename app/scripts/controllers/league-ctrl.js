@@ -11,6 +11,7 @@
 
     var LeagueService = LgSvc;
     var lg = this;                                    // controller as variable...
+    
     var leagueId = $stateParams.leagueId;             // keeps the current leagueId
     lg.league = [];                                   // league object
     lg.hasSchedules = false;

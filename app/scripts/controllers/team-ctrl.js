@@ -13,7 +13,7 @@
 
       //teamModel.getLeagueTeams(null);
       //teamResource.query({id:teamId}).$promise.then(function(response) {
-        teamModel.getTeamById(teamId).then(function(response) {
+      teamModel.getTeamById(teamId).then(function(response) {
           var t = response[0]; //$filter('json')(response);
           if (t) {
             tm.team = t;
@@ -26,14 +26,11 @@
     } else if (teamId == 'new') {
       tm.team = {id:null, name:'', bracket:'', shortName:''};
 
-    } else {
+    } else { // query all teams. 
 
-      //tm.allTeams =    // static list with all teams for league
-      //  teamModel.getLeagueTeams(leagueId);
-
-      /* retrieves all teams available from db unsing $resource */
-      //teamModel.getAllLeagueTeams(null).query(function(myTeams) {
-      teamResource.query(function(myTeams) {
+      /* retrieves all teams available from db using $resource */
+      teamModel.getAllLeagueTeams(leagueId).then(function(myTeams) {
+      //teamResource.query(function(myTeams) {
 
         if (myTeams) {
           console.log(myTeams);

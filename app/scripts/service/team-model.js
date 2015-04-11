@@ -50,9 +50,23 @@ function TeamModel (teamService) {
 		getTempTeams : function() {
 			return teamService.getTempTeams();
 		},
-
+		/* service returns all teams, it's a small so do the filtering by leagueId here for now 
+			a promise is returned so the controller can handle the output.
+		*/
 		getAllLeagueTeams : function(leagueId) {
-			return teamService.getAllLeagueTeams(leagueId).query().$promise;
+			var filteredTeams = [];
+			return teamService.resource().query(function(myTeams) {
+				// iterate through each team array and return only 
+				// the ones belonging to the league
+				myTeams.forEach(function(team) {
+					if (team.leagueId == leagueId)
+						filteredTeams.push(team);
+				
+				});
+
+			}).$promise;
+
+			//return teamService.getAllLeagueTeams(leagueId).query().$promise;
 
 		},
 
